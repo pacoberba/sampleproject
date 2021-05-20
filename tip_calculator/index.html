@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css"/>
+    <title>Tip Calculator</title>
+</head>
+<body>
+    <main id="container">
+        <h1>Calculator</h1>
+        <section>
+            <div class="bill">
+                <label for="YourBill">Bill</label>
+                <input type="number" placeholder="Your Bill" id="YourBill";/>
+            </div>
+            <div>
+                <div class="spacebetween">
+                    <label for="TipInput">Select Tip</label>
+                    <span id="TipPercent"></span>
+                </div>
+                    <input type="range" value="0" id="TipInput" class="range"/>
+            </div>
+            <div>
+                <div class="spacebetween">
+                    <span>Tip</span>
+                    <span id="TipValue"></span>
+                </div>
+                <hr />
+                <div class="spacebetween total">
+                    <span><b>Total</b></span>
+                    <span id="TotalWithTip"></span>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div>
+                <div class="spacebetween">
+                    <label for="SplitInput">Split</label>
+                    <span id="SplitValue"></span>
+                </div>
+                <input type="range" value="1" min="1" max="10" id="SplitInput" class="range">
+            </div>
+            <div class="spacebetween">
+                <span> Bill Each</span>
+                <span id="BillEach"></span>
+            </div>
+            <div class="spacebetween">
+                <span> Tip Each </span>
+                <span id="TipEach"></span>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function formatMoney(value){
+            value = Math.ceil(value*100)/100;
+            value = value.toFixed(2);
+            return "Php " + value;
+        }
+
+        function formatPercentage(value){
+            return value + "%";
+        }
+
+        function formatSplit(value){
+            if (value==1)
+                return value + " person";
+            return value + " people";
+        }
+
+        function update() {
+            let YourBill = Number(document.getElementById("YourBill").value);
+            let TipPercent = document.getElementById("TipInput").value;
+            let SplitValue = document.getElementById("SplitInput").value;
+
+            let TipValue = YourBill*(TipPercent/100);
+            let TotalBill = TipValue+YourBill;
+            let BillEach = YourBill/SplitValue;
+            let TipEach = TipValue/SplitValue;
+
+            document.getElementById("TipValue").innerHTML = formatMoney(TipValue);
+            document.getElementById("TotalWithTip").innerHTML = formatMoney(TotalBill);
+            document.getElementById("BillEach").innerHTML = formatMoney(BillEach);
+            document.getElementById("TipEach").innerHTML = formatMoney(TipEach);
+            document.getElementById("TipPercent").innerHTML = formatPercentage(TipPercent);
+            document.getElementById("SplitValue").innerHTML = formatSplit(SplitValue);
+        }
+        let container = document.getElementById('container');
+        container.addEventListener('input', update);
+    </script>
+</body>
+</html>
